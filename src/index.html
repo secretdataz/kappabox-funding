@@ -19,6 +19,11 @@
 <body>
     <div id="app">
         <section class="hero is-info is-fullheight">
+                <a href="https://github.com/secretdataz/kappabox-funding"><img width="149" height="149"
+                    src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149"
+                    alt="Fork me on GitHub" data-recalc-dims="1"
+                    style="position: absolute; top: 0; right: 0;"
+                ></a>
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <div class="column is-6 is-offset-3">
@@ -29,56 +34,59 @@
                             Help me pay the server rent, because I'm poor. Thanks
                         </h2>
                         <div class="table-container">
-                                <table class="table is-bordered">
-                                    <tr>
-                                        <th>
-                                            Timespan
-                                        </th>
-                                        <td>
-                                            {{ timespan }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Donations YTD
-                                        </th>
-                                        <td>
-                                            {{ totalDonations.toFixed(2) }} THB
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Current balance
-                                        </th>
-                                        <td>
-                                            {{ currentBalance.toFixed(2) }} THB
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Expenses YTD
-                                        </th>
-                                        <td>
-                                            {{ totalYtdExpenses.toFixed(2) }} THB
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            Expenses YTG (expected)
-                                        </th>
-                                        <td>
-                                            {{ totalYtgExpenses.toFixed(2) }} THB
-                                        </td>
-                                    </tr>
-                                </table>
+                            <table class="table is-bordered">
+                                <tr>
+                                    <th>
+                                        Timespan
+                                    </th>
+                                    <td>
+                                        {{ timespan }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Donations YTD
+                                    </th>
+                                    <td>
+                                        {{ totalDonations.toFixed(2) }} THB
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Current balance
+                                    </th>
+                                    <td>
+                                        {{ currentBalance.toFixed(2) }} THB
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Expenses YTD
+                                    </th>
+                                    <td>
+                                        {{ totalYtdExpenses.toFixed(2) }} THB
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Expenses YTG (expected)
+                                    </th>
+                                    <td>
+                                        {{ totalYtgExpenses.toFixed(2) }} THB
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                        <h3>Summary: {{ totalDonations }}/{{ totalYtdExpenses + totalYtgExpenses }} THB ({{ percentage }}%)</h3>
-                        <progress class="progress" :class="progressStyle" :value="percentage" max="100">{{ percentage }}</progress>
+                        <h3>Summary: {{ totalDonations }}/{{ totalYtdExpenses + totalYtgExpenses }} THB
+                            ({{ percentage }}%)</h3>
+                        <progress class="progress" :class="progressStyle" :value="percentage"
+                            max="100">{{ percentage }}</progress>
                         <div class="box">
                             <h2><b>Donations</b></h2>
                             <ul>
                                 <li v-for="donation in donations">
-                                    • From {{ donation.by }} {{ donation.amount.toFixed(2) }} THB at {{ formatDate(donation.at) }}
+                                    • From {{ donation.by }} {{ donation.amount.toFixed(2) }} THB at
+                                    {{ formatDate(donation.at) }}
                                 </li>
                             </ul>
                         </div>
@@ -92,7 +100,8 @@
                             <h2><b>Expected expenses</b></h2>
                             <ul>
                                 <li v-for="expense in ytgExpenses">
-                                    • Expected to pay {{ expense.amount.toFixed(2) }} THB at {{ formatDate(expense.expectedDate) }}
+                                    • Expected to pay {{ expense.amount.toFixed(2) }} THB at
+                                    {{ formatDate(expense.expectedDate) }}
                                 </li>
                             </ul>
                         </div>
@@ -163,4 +172,5 @@
         })
     </script>
 </body>
+
 </html>
