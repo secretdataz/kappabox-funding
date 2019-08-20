@@ -110,35 +110,8 @@
             el: '#app',
             data: {
                 timespan: '2019 (Aug-Dec)',
-                donations: [
-                    {
-                        by: 'Secret',
-                        amount: 150,
-                        at: '2019-08-07'
-                    }
-                ],
-                expenses: [
-                    {
-                        expectedDate: '2019-08-07',
-                        amount: 150
-                    },
-                    {
-                        expectedDate: '2019-09-07',
-                        amount: 150
-                    },
-                    {
-                        expectedDate: '2019-10-07',
-                        amount: 150
-                    },
-                    {
-                        expectedDate: '2019-11-07',
-                        amount: 150
-                    },
-                    {
-                        expectedDate: '2019-12-07',
-                        amount: 150
-                    },
-                ],
+                donations: [],
+                expenses: [],
             },
             computed: {
                 currentBalance() {
@@ -176,6 +149,16 @@
                 formatDate(date) {
                     return dayjs(date).format('DD MMMM YYYY')
                 }
+            },
+            mounted() {
+                fetch('https://gist.githack.com/secretdataz/7f821e19175211a0ff862561f4488a58/raw/kappabox.json')
+                    .then(res => res.json().then(data => {
+                        this.expenses = data.expenses
+                        this.donations = data.donations
+                    }).catch(() => alert('Cannot deserialize JSON data')))
+                    .catch(() => {
+                        alert('Error loading data')
+                    })
             }
         })
     </script>
