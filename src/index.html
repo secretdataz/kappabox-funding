@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>KappaBox Funding</title>
+    <link rel="shortcut icon" href="kappa.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../bulma.css"> -->
+    <link rel="stylesheet" href="bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="day.min.js"></script>
+    <script src="vue.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+</head>
+
+<body>
+    <div id="app">
+        <section class="hero is-info is-fullheight">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="column is-6 is-offset-3">
+                        <h1 class="title">
+                            KappaBox v2 Funding
+                        </h1>
+                        <h2 class="subtitle">
+                            Help me pay the server rent, because I'm poor. Thanks
+                        </h2>
+                        <div class="table-container">
+                                <table class="table is-bordered">
+                                    <tr>
+                                        <th>
+                                            Timespan
+                                        </th>
+                                        <td>
+                                            {{ timespan }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Donations YTD
+                                        </th>
+                                        <td>
+                                            {{ totalDonations.toFixed(2) }} THB
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Current balance
+                                        </th>
+                                        <td>
+                                            {{ currentBalance.toFixed(2) }} THB
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Expenses YTD
+                                        </th>
+                                        <td>
+                                            {{ totalYtdExpenses.toFixed(2) }} THB
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Expenses YTG (expected)
+                                        </th>
+                                        <td>
+                                            {{ totalYtgExpenses.toFixed(2) }} THB
+                                        </td>
+                                    </tr>
+                                </table>
+                        </div>
+                        <h3>Summary: {{ totalDonations }}/{{ totalYtdExpenses + totalYtgExpenses }} THB ({{ percentage }}%)</h3>
+                        <progress class="progress" :class="progressStyle" :value="percentage" max="100">{{ percentage }}</progress>
+                        <div class="box">
+                            <h2><b>Donations</b></h2>
+                            <ul>
+                                <li v-for="donation in donations">
+                                    • From {{ donation.by }} {{ donation.amount.toFixed(2) }} THB at {{ formatDate(donation.at) }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="box">
+                            <h2><b>Paid expenses</b></h2>
+                            <ul>
+                                <li v-for="expense in ytdExpenses">
+                                    • Paid {{ expense.amount.toFixed(2) }} THB at {{ formatDate(expense.expectedDate) }}
+                                </li>
+                            </ul>
+                            <h2><b>Expected expenses</b></h2>
+                            <ul>
+                                <li v-for="expense in ytgExpenses">
+                                    • Expected to pay {{ expense.amount.toFixed(2) }} THB at {{ formatDate(expense.expectedDate) }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="box">
+                            <h2><b>ช่องทางบริจาค</b></h2>
+                            <p>หลังไมค์ Secret ในเซิฟได้เลยคร้าบ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                timespan: '2019 (Aug-Dec)',
+                donations: [
+                    {
+                        by: 'Secret',
+                        amount: 150,
+                        at: '2019-08-07'
+                    }
+                ],
+                expenses: [
+                    {
+                        expectedDate: '2019-08-07',
+                        amount: 150
+                    },
+                    {
+                        expectedDate: '2019-09-07',
+                        amount: 150
+                    },
+                    {
+                        expectedDate: '2019-10-07',
+                        amount: 150
+                    },
+                    {
+                        expectedDate: '2019-11-07',
+                        amount: 150
+                    },
+                    {
+                        expectedDate: '2019-12-07',
+                        amount: 150
+                    },
+                ],
+            },
+            computed: {
+                currentBalance() {
+                    return this.totalDonations - this.totalYtdExpenses
+                },
+                totalDonations() {
+                    return this.donations.map(e => e.amount).reduce((total, current) => total + current, 0)
+                },
+                ytdExpenses() {
+                    const today = dayjs()
+                    return this.expenses.filter(e => dayjs(e.expectedDate).isBefore(today))
+                },
+                ytgExpenses() {
+                    const today = dayjs()
+                    return this.expenses.filter(e => dayjs(e.expectedDate).isAfter(today))
+                },
+                totalYtdExpenses() {
+                    return this.ytdExpenses.map(e => e.amount).reduce((total, current) => total + current, 0)
+                },
+                totalYtgExpenses() {
+                    return this.ytgExpenses.map(e => e.amount).reduce((total, current) => total + current, 0)
+                },
+                percentage() {
+                    return this.totalDonations / (this.totalYtdExpenses + this.totalYtgExpenses) * 100
+                },
+                progressStyle() {
+                    return {
+                        'is-success': this.percentage > 70,
+                        'is-warning': this.percentage > 35 && this.percentage < 70,
+                        'is-danger': this.percentage < 35,
+                    }
+                }
+            },
+            methods: {
+                formatDate(date) {
+                    return dayjs(date).format('DD MMMM YYYY')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "kappabox-funding",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "deploy": "gh-pages -d src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": true,
+  "devDependencies": {
+    "gh-pages": "^2.1.1"
+  }
+}
