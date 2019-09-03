@@ -160,7 +160,7 @@
                 }
             },
             mounted() {
-                fetch('https://gist.githack.com/secretdataz/7f821e19175211a0ff862561f4488a58/raw/kappabox.json')
+                fetch('https://cdn.statically.io/gh/secretdataz/statics/ccf7faca/kappabox.json')
                     .then(res => res.json().then(data => {
                         this.expenses = data.expenses
                         this.donations = data.donations
