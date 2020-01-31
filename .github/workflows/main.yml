@@ -1,12 +1,15 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: GitHub Pages Deploy
-      uses: maxheld83/ghpages@v0.2.1
-      env:
-       BUILD_DIR: src
+      - uses: actions/checkout@v2
+      - name: GitHub Pages Deploy
+        uses: maxheld83/ghpages@v0.2.1
+        env:
+          BUILD_DIR: src
